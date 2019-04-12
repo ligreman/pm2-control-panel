@@ -1,0 +1,18 @@
+{
+  "apps": [
+    {
+      "name": "api",
+      "script": "./src/app.js",
+      "exec_mode": "fork",
+      "instances": "1",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "env_production": {
+        "NODE_ENV": "production"
+      },
+      "error_file": "/var/log/pm2api/error.log",
+      "out_file": "/var/log/pm2api/output.log"
+    }
+  ]
+}
