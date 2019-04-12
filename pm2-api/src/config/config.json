@@ -1,7 +1,7 @@
 {
   "debugMode": true,
   "logger": {
-    "logsDir": "./var/log/myapp/",
+    "logsDir": "/var/log/pm2api/",
     "accessLogFile": "access.log",
     "errorLogFile": "error-%DATE%.log",
     "rotateLogMaxFiles": 90,
