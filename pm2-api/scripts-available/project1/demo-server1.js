@@ -15,6 +15,9 @@ app.listen(port);
 console.log('Server started on port ' + port + ', environment: ' + process.env.NODE_ENV); 			// shoutout to the user
 
 app.get('/', function (req, res) {
+    console.error('Error');
+    console.log('Request');
+
     res.json({
         'message': 'Todo ok por el server 1'
     });

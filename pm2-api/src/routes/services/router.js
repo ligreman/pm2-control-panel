@@ -175,6 +175,34 @@ router.post('/stop', function (req, res) {
 });
 
 /**
+ * Flushea un servicio (elimina los logs)
+ * @param [body] name: el name del proceso
+ */
+router.post('/flush', function (req, res) {
+    logger.info('Peticion: ' + JSON.stringify(req.route));
+    logger.info('    params: ' + JSON.stringify(req.body));
+
+    // Parámetros opcionales
+    if (!req.body.name) {
+        res.status(400).json({'error_message': MESSAGES.errors.wrongParams});
+        return;
+    }
+
+    pm2.flush(req.body.name, (err, proc) => {
+        if (err) {
+            logger.error(err);
+            res.status(400).json({'error_message': MESSAGES.errors.pm2FlushError});
+        } else {
+            logger.info('PM2 flushed');
+            res.json({
+                'message': MESSAGES.pm2ServiceFlushed
+            });
+
+        }
+    });
+});
+
+/**
  * Eliminar un servicio
  * @param [body] id: nombre del servicio
  */

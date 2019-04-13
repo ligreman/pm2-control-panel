@@ -292,6 +292,55 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
 
     /**
+     * Flush al proceso (elimina los logs)
+     * @param id ID del proceso
+     * @param name Nombre del proceso
+     */
+    public flushProcess(id: string, name: string) {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            width: '500px',
+            disableClose: true,
+            data: {
+                title: '¿Eliminar los logs del proceso?',
+                message: 'Confirma que quieres eliminar todos los logs de PM2 del proceso ' + name + '. No se eliminarán los logs que cree el script de dicho proceso, sólo los que genera PM2.',
+                acceptButton: 'Eliminar logs'
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(returnedValue => {
+            // Mando la petición al API
+            if (returnedValue === true) {
+
+                this.isLoadingTable = true;
+
+                this.apiService.flushProcess({id: id}).subscribe(
+                    (response: HttpResponse<DefaultResponse>) => {
+                        this.isLoadingTable = false;
+                        if (!response['body'] || response['status'] !== 200) {
+                            // ERROR
+                            this.snackBar.open('Error al consultar al API', '', {
+                                horizontalPosition: 'end',
+                                verticalPosition: 'bottom',
+                                duration: 2500,
+                                panelClass: ['snackbar-warn']
+                            });
+                        } else {
+
+                            // Correcto, voy a pedir los datos de nuevo
+                            this.getProcessData();
+                        }
+                        console.log(response);
+                    },
+                    error => {
+                        this.isLoadingTable = false;
+                        console.log('Error: ' + error);
+                    }
+                );
+            }
+        });
+    }
+
+    /**
      * Elimina un proceso
      * @param id ID del proceso
      * @param name Nombre del proceso

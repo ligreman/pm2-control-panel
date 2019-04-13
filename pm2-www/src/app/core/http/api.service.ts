@@ -98,6 +98,18 @@ export class ApiService {
         );
     }
 
+    flushProcess(params: any): Observable<any[] | HttpResponse<DefaultResponse>> {
+        return this.http.post<DefaultResponse>(api.url + 'services/flush', params, {
+            headers: new HttpHeaders({'Content-Type': 'application/json'}),
+            // Le digo que quiero la respuesta entera
+            observe: 'response'
+        }).pipe(
+            // Envía la variable al log
+            tap(domains => console.log('process flushed')),
+            catchError(this.handleError('flushProcess', []))
+        );
+    }
+
     deleteProcess(params: any): Observable<any[] | HttpResponse<DefaultResponse>> {
         return this.http.post<DefaultResponse>(api.url + 'services/delete', params, {
             headers: new HttpHeaders({'Content-Type': 'application/json'}),

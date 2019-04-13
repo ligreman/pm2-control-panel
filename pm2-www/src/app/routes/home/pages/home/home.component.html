@@ -23,8 +23,10 @@
             </mat-toolbar>
 
 
-            <div *ngIf="isLoadingTable">
-                <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+            <div>
+                <mat-progress-bar *ngIf="isLoadingTable" color="accent" mode="indeterminate"></mat-progress-bar>
+                <mat-progress-bar *ngIf="!isLoadingTable" color="accent" mode="determinate"
+                                  value="0"></mat-progress-bar>
             </div>
 
             <div fxLayout="column" fxLayoutAlign="center center">
@@ -78,7 +80,8 @@
                     <ng-container matColumnDef="actions">
                         <th *matHeaderCellDef mat-header-cell>Acciones</th>
                         <td *matCellDef="let row" mat-cell>
-                            <button (click)="stopProcess(row.id)" [disabled]="row.status === 'stopped'" color="primary"
+                            <button (click)="stopProcess(row.id)"
+                                    [disabled]="row.status === 'stopped' || row.status === 'errored'" color="primary"
                                     mat-icon-button matTooltip="Detener el proceso">
                                 <mat-icon>pause</mat-icon>
                             </button>
@@ -108,6 +111,10 @@
                             <button (click)="getProcessLog(row.id, row.name, 'error')" color="warn"
                                     mat-icon-button matTooltip="Log de errores">
                                 <mat-icon>assignment</mat-icon>
+                            </button>
+                            <button (click)="flushProcess(row.name, row.name)" color="warn"
+                                    mat-icon-button matTooltip="Eliminar todos los logs del proceso en PM2">
+                                <mat-icon>delete_forever</mat-icon>
                             </button>
                         </td>
                     </ng-container>
