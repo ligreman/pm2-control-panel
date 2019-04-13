@@ -293,10 +293,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     /**
      * Flush al proceso (elimina los logs)
-     * @param id ID del proceso
      * @param name Nombre del proceso
      */
-    public flushProcess(id: string, name: string) {
+    public flushProcess(name: string) {
         const dialogRef = this.dialog.open(ConfirmDialogComponent, {
             width: '500px',
             disableClose: true,
@@ -313,7 +312,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
                 this.isLoadingTable = true;
 
-                this.apiService.flushProcess({id: id}).subscribe(
+                this.apiService.flushProcess({name: name}).subscribe(
                     (response: HttpResponse<DefaultResponse>) => {
                         this.isLoadingTable = false;
                         if (!response['body'] || response['status'] !== 200) {
