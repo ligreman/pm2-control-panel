@@ -1,0 +1,35 @@
+{
+  "apps": [
+    {
+      "label": "Server 1",
+      "script": "demo-server1.js",
+      "cwd": "D:\\Workspace\\nodejs\\pm2\\pm2-control-panel\\pm2-api\\scripts-available\\project1",
+      "autorestart": true,
+      "watch": false,
+      "merge_logs": true,
+      "output": "/var/log/pm2.<name>.out.log",
+      "error": "/var/log/pm2.<name>.error.log",
+      "append_env_to_name": true,
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    {
+      "label": "Server 2",
+      "script": "demo-server2.js",
+      "cwd": "D:\\Workspace\\nodejs\\pm2\\pm2-control-panel\\pm2-api\\scripts-available\\project2",
+      "autorestart": true,
+      "watch": false,
+      "merge_logs": true,
+      "output": "/var/log/pm2.<name>.out.log",
+      "error": "/var/log/pm2.<name>.error.log",
+      "append_env_to_name": true,
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "env_production": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}

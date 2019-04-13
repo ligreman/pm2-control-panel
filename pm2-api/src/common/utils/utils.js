@@ -1,9 +1,13 @@
-const validator = require('validator'),
-    CONFIG = require('../../config/config'),
-    SCRIPTS = require('../../config/scripts-available');
+const validator = require('validator');
+const CONFIG = require('../../config/config');
+const scriptsAvailableJson = require('../../config/available-scripts');
 
 const getAvailableScripts = function () {
-    return SCRIPTS.list;
+    let list = [];
+    scriptsAvailableJson.apps.forEach((app) => {
+        list.push(app.label);
+    });
+    return list;
 };
 
 const generateName = function (txt) {

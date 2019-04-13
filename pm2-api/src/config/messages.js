@@ -12,6 +12,7 @@ module.exports = {
         'pm2ServiceReloaded': 'pm2ServiceReloaded',
         'pm2ServiceRestarted': 'pm2ServiceRestarted',
         'pm2ServiceDeleted': 'pm2ServiceDeleted',
-        'pm2ServiceStopped': 'pm2ServiceStopped'
+        'pm2ServiceStopped': 'pm2ServiceStopped',
+        'pm2ScriptNotFound': 'pm2ScriptNotFound'
     }
 };

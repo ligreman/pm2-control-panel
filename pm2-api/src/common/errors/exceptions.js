@@ -1,5 +1,6 @@
 const logger = require('winston').loggers.get('logger');
 const {CriticalError} = require('./custom-errors');
+const pm2 = require('pm2');
 
 /**
  * Cierra los servicios uno a uno
@@ -38,6 +39,10 @@ function closeApiServer(server) {
  */
 function shutdownGracefully(services) {
     logger.info('Cerrando servicios antes de salir');
+
+    // PM2
+    pm2.disconnect();
+
     // Cierro todo
     closeServices(services)
         .then(() => {

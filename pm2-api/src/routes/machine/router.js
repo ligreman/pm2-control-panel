@@ -10,14 +10,14 @@ const logger = require('winston').loggers.get('logger');
 router.get('/', function (req, res) {
     logger.info('Peticion: ' + JSON.stringify(req.route));
 
-    var cpus = os.cpus(),
+    let cpus = os.cpus(),
         freemem = os.freemem(),
         mem = os.totalmem(),
         so = os.type(),
         release = os.release();
 
     // Cojo la info de cada cpu
-    var rescpus = [];
+    let rescpus = [];
     cpus.forEach(function (cpu) {
         rescpus.push({
             model: cpu.model,

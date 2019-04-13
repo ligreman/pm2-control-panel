@@ -12,7 +12,7 @@ app.use(bodyParser.json()); // parse application/json
 
 // start app ===============================================
 app.listen(port);
-console.log('Server started on port ' + port); 			// shoutout to the user
+console.log('Server started on port ' + port + ', environment: ' + process.env.NODE_ENV); 			// shoutout to the user
 
 app.get('/', function (req, res) {
     res.json({

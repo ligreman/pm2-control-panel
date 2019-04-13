@@ -2,11 +2,10 @@
 const Router = require('express').Router;
 const router = new Router();
 const pm2 = require('pm2');
-const os = require('os');
 const utils = require('../../common/utils/utils');
 const MESSAGES = require('../../config/messages');
 const logger = require('winston').loggers.get('logger');
-const CONFIG = require('../../config/config');
+const scriptsAvailableJson = require('../../config/available-scripts');
 
 /**
  * Arrancar un servicio nuevo
@@ -22,30 +21,42 @@ router.post('/start', function (req, res) {
 
     // Verifico que viene el parámetro obligatorio
     if (!req.body.script || !scriptList.includes(req.body.script)) {
-        res.status(400).json({'error_message': MESSAGES.errors.wrongParams});
-        return;
+        return res.status(400).json({'error_message': MESSAGES.errors.wrongParams});
     }
 
-    // Parámetros opcionales
-    let name = utils.generateName(req.body.script);
+    // Saco el JSON del script correspondiente
+    let options = null;
+    scriptsAvailableJson.apps.forEach((app) => {
+        if (app.label === req.body.script) {
+            options = app;
+        }
+    });
+
+    // Si no encuentro el script es que algo ha ido mal
+    if (options === null) {
+        return res.status(500).json({'error_message': MESSAGES.errors.pm2ScriptNotFound});
+    }
+
+    // Nombre del proceso
+    let name = utils.generateName(options.label);
     if (req.body.name && req.body.name !== '') {
         name = req.body.name;
     }
+    // Instancias a crear
     let instances = 1;
     if (req.body.instances && !isNaN(req.body.instances)) {
         instances = parseInt(req.body.instances);
     }
 
+    // Completo el objeto de opciones
+    options.name = name;
+    options.output = options.output.replace('<name>', name.toLowerCase().replace(/ /g, ''));
+    options.error = options.error.replace('<name>', name.toLowerCase().replace(/ /g, ''));
+    options.instances = instances;
+    delete options.label;
+
     // Si todo es correcto, arranco el script
-    pm2.start({
-        script: req.body.script,
-        name: name,
-        cwd: CONFIG.scriptFolder,
-        instances: instances,
-        output: '/var/log/pm2.' + name.toLowerCase().replace(/ /g, '') + '.out.log',
-        error: '/var/log/pm2.' + name.toLowerCase().replace(/ /g, '') + '.error.log',
-        merge_logs: true
-    }, (err, createdApp) => {
+    pm2.start(options, (err, createdApp) => {
         if (err) {
             logger.error(err);
             res.status(400).json({'error_message': MESSAGES.errors.pm2StartError});

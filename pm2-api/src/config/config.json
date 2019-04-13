@@ -13,7 +13,6 @@
   "server": {
     "port": 8080
   },
-  "scriptFolder": "./scripts-available/",
   "scriptNameReplacements": {
     ".js": "",
     "-": " "
