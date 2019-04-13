@@ -14,6 +14,7 @@ import { NgModule, Optional, SkipSelf } from '@angular/core';
         CommonModule,
         HttpClientModule
     ],
+    exports: [HttpClientModule],
     declarations: [],
     providers: [
         /* our own custom services  */
