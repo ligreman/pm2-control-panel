@@ -1,0 +1,26 @@
+//noinspection CssUnknownTarget
+@import '~assets/scss/main';
+
+.header-logo {
+  height: 75px;
+}
+
+.header-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+.main-container {
+  //min-height: 100vh;
+  //background: #FAFAFA;
+}
+
+footer {
+  background: #ECEFF1;
+  color: $text-color-grey;
+}
+
+footer .footer-logo {
+  height: 22px;
+}

@@ -4,9 +4,11 @@ const router = new Router();
 
 // Importamos los ficheros de rutas
 const serviceRouter = require('./services/router');
+const machineRouter = require('./machine/router');
 
 // Monto los otros endpoints
 router.use('/services', serviceRouter);
+router.use('/machine', machineRouter);
 
 // Endpoint base
 router.get('/', function (req, res, next) {
@@ -17,7 +19,11 @@ router.get('/', function (req, res, next) {
         next('err variable');
     } else {
         // Respondemos normalmente
-        res.status(200).send('OK');
+        res.json({
+            'data': {
+                'status': 'OK'
+            }
+        });
     }
 });
 

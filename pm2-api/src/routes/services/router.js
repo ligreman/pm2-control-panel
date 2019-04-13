@@ -84,7 +84,7 @@ router.get('/', function (req, res) {
         let returnList = [];
         processList.forEach(function (process) {
             // Calculo el tiempo levantado
-            let uptime = process.pm2_env.pm_uptime;
+            let uptime = new Date().getTime() - process.pm2_env.pm_uptime;
 
             returnList.push({
                 id: process.pm_id,
@@ -286,56 +286,6 @@ router.get('/log', function (req, res) {
             // Si existe el fichero de log out
             res.download(file, logFileName + '.log');
         }
-    });
-});
-
-/**
- * Obtiene los datos del OS
- */
-router.get('/api/machine', function (req, res) {
-    logger.info('Peticion: ' + JSON.stringify(req.route));
-
-    var cpus = os.cpus(),
-        freemem = os.freemem(),
-        mem = os.totalmem(),
-        so = os.type(),
-        release = os.release();
-
-    // Cojo la info de cada cpu
-    var rescpus = [];
-    cpus.forEach(function (cpu) {
-        rescpus.push({
-            model: cpu.model,
-            speed: cpu.speed
-        });
-    });
-
-    // Memoria
-    freemem = Math.round((freemem / 1024) / 1024);
-    mem = Math.round((mem / 1024) / 1024);
-
-    res.json({
-        'data': {
-            'os': so + ' ' + release,
-            'cpus': rescpus,
-            'freememory': freemem + 'MB / ' + mem + 'MB'
-        }
-    });
-});
-
-// Status
-router.get('/', function (req, res) {
-    res.json({
-        'data': {
-            'status': 'OK'
-        }
-    });
-});
-
-// Default
-router.get('*', function (req, res) {
-    res.status(404).json({
-        'error_message': MESSAGES.notFound
     });
 });
 

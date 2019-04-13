@@ -1,0 +1,129 @@
+<div fxFill fxLayout="row" fxLayoutAlign="center start">
+
+    <div class="margin-top-2em margin-bottom-2em" fxFlex="70" fxLayout="column" fxLayoutAlign="center stretch">
+        <p class="text-right machine-info">
+            <span *ngIf="machineInfo">{{machineInfo.os}} - {{ machineInfo.cpus.length}}
+                cores - Memoria libre {{machineInfo.freememory}}</span>
+            <span *ngIf="!machineInfo">No hay conexión con el servidor</span>
+        </p>
+        <div class="mat-elevation-z1" fxLayout="column">
+            <mat-toolbar color="primary">
+                <mat-toolbar-row>
+                    <span>Procesos activos</span>
+                    <span class="fill-remaining-space"></span>
+                    <button (click)="getProcessData()" class="mat-accent" mat-icon-button
+                            matTooltip="Refrescar lista de procesos">
+                        <mat-icon>refresh</mat-icon>
+                    </button>
+                    <button (click)="newProcessDialog()" class="mat-accent" mat-icon-button
+                            matTooltip="Levantar nuevo proceso">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </mat-toolbar-row>
+            </mat-toolbar>
+
+
+            <div *ngIf="isLoadingTable">
+                <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+            </div>
+
+            <div fxLayout="column" fxLayoutAlign="center center">
+                <p *ngIf="firstLoad">Cargando información de los procesos...</p>
+                <p *ngIf="!firstLoad && dataProcesses && dataProcesses.length == 0">No hay procesos activos</p>
+                <table *ngIf="dataProcesses && dataProcesses.length > 0" [dataSource]="dataProcesses" fxFill mat-table>
+                    <!-- Number Column -->
+                    <ng-container matColumnDef="name">
+                        <th *matHeaderCellDef mat-header-cell>Proceso</th>
+                        <td *matCellDef="let row" [matTooltip]="row.script" mat-cell>[{{row.id}}] {{row.name}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th *matHeaderCellDef mat-header-cell>Estado</th>
+                        <td *matCellDef="let row"
+                            [ngClass]="{'color-green': row.status === 'online', 'color-red': row.status === 'errored', 'color-orange': row.status === 'stopped'}"
+                            mat-cell>{{row.status}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="mode">
+                        <th *matHeaderCellDef mat-header-cell>Modo</th>
+                        <td *matCellDef="let row" mat-cell>{{row.mode}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="restarted">
+                        <th *matHeaderCellDef mat-header-cell matTooltip="Nº de veces que se ha reiniciado el proceso">
+                            Reinicios
+                        </th>
+                        <td *matCellDef="let row" mat-cell>{{row.restarted}}</td>
+                    </ng-container>
+
+                    <!-- State Column -->
+                    <ng-container matColumnDef="time">
+                        <th *matHeaderCellDef mat-header-cell>Uptime</th>
+                        <td *matCellDef="let row"
+                            mat-cell>{{ Duration.fromMillis(row.time).toFormat("d'd' h'h' m'm' s's'") }}</td>
+                    </ng-container>
+
+                    <!-- Title Column -->
+                    <ng-container matColumnDef="memory">
+                        <th *matHeaderCellDef mat-header-cell>Memoria</th>
+                        <td *matCellDef="let row" mat-cell>{{ Math.round(row.memory) }}MB</td>
+                    </ng-container>
+
+                    <!-- State Column -->
+                    <ng-container matColumnDef="cpu">
+                        <th *matHeaderCellDef mat-header-cell>CPU</th>
+                        <td *matCellDef="let row" mat-cell>{{row.cpu}}%</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th *matHeaderCellDef mat-header-cell>Acciones</th>
+                        <td *matCellDef="let row" mat-cell>
+                            <button (click)="stopProcess(row.id)" [disabled]="row.status === 'stopped'" color="primary"
+                                    mat-icon-button matTooltip="Detener el proceso">
+                                <mat-icon>pause</mat-icon>
+                            </button>
+                            <button (click)="startProcess(row.id)" [disabled]="row.status === 'online'" color="accent"
+                                    mat-icon-button matTooltip="Reiniciar el proceso">
+                                <mat-icon>play_arrow</mat-icon>
+                            </button>
+                            <button (click)="reloadProcess(row.id)" color="primary" mat-icon-button
+                                    matTooltip="Recargar el script del proceso y reiniciarlo">
+                                <mat-icon>repeat</mat-icon>
+                            </button>
+                            <button (click)="deleteProcess(row.id, row.name)"
+                                    *ngIf="row.status === 'stopped' || row.status === 'errored'"
+                                    color="warn" mat-icon-button matTooltip="Eliminar el proceso">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="logs">
+                        <th *matHeaderCellDef mat-header-cell>Logs</th>
+                        <td *matCellDef="let row" mat-cell>
+                            <button (click)="getProcessLog(row.id, row.name, 'out')" color="primary"
+                                    mat-icon-button matTooltip="Log de salida">
+                                <mat-icon>assignment</mat-icon>
+                            </button>
+                            <button (click)="getProcessLog(row.id, row.name, 'error')" color="warn"
+                                    mat-icon-button matTooltip="Log de errores">
+                                <mat-icon>assignment</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+
+                    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+                    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+                </table>
+            </div>
+        </div>
+        <mat-paginator (page)="getProcessData($event)"
+                       [disabled]="isLoadingTable"
+                       [length]="paginationLength"
+                       [pageIndex]="pageIndex"
+                       [pageSizeOptions]="[5, 10, 50]"
+                       [pageSize]="pageSize"
+                       color="primary"></mat-paginator>
+    </div>
+
+</div>

@@ -1,0 +1,39 @@
+<h1 mat-dialog-title>Crear nuevo proceso</h1>
+<div mat-dialog-content fxLayout="column">
+    <p>Indica el nombre del nuevo proceso y el script que ejecutará.</p>
+    <mat-form-field fxFlex>
+        <input matInput placeholder="Nombre del proceso" [(ngModel)]="data.processName" required>
+        <!--<mat-error *ngIf="processName.errors.required">
+            Campo requerido
+        </mat-error>-->
+    </mat-form-field>
+
+    <p *ngIf="isLoadingSelect">Cargando scripts disponibles...</p>
+    <mat-form-field fxFlex *ngIf="!isLoadingSelect">
+        <mat-select matNativeControl required [(ngModel)]="data.processScript" placeholder="Script asociado">
+            <mat-option [value]="process" *ngFor="let process of processesList">{{ process }}</mat-option>
+        </mat-select>
+        <!--<mat-error *ngIf="processScript.errors.required">
+            Campo requerido
+        </mat-error>-->
+    </mat-form-field>
+
+    <p fxLayout="row" fxLayoutAlign="start center">
+        <span>Instancias: {{data.processInstances}}</span>
+        <span fxFlex="5"></span>
+        <mat-slider fxFlex
+                    [max]="data.maxInstances" [min]="1"
+                    [step]="1" [thumbLabel]="true"
+                    [tickInterval]="1"
+                    [(ngModel)]="data.processInstances">
+        </mat-slider>
+    </p>
+</div>
+
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button color="accent" [mat-dialog-close]="data"
+            [disabled]="data.processName === '' || data.processScript === ''">
+        Crear proceso
+    </button>
+</div>

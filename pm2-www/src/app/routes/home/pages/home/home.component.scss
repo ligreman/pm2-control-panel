@@ -1,0 +1,59 @@
+//noinspection CssUnknownTarget
+@import '~assets/scss/main';
+// Import library functions for theme creation.
+@import '~@angular/material/theming';
+
+$red: mat-palette($mat-red);
+$green: mat-palette($mat-green);
+$orange: mat-palette($mat-orange);
+
+a, a:visited {
+  color: $text-color-darkgrey;
+  text-decoration: none;
+}
+
+a:hover, a:active {
+  cursor: pointer;
+  color: $link-color-active;
+}
+
+.mat-paginator {
+  background: transparent !important;
+}
+
+.subheader {
+  background: $subheader-bgcolor-grey;
+}
+
+.subheader p {
+  color: $text-color-grey;
+  font-style: italic;
+}
+
+.card-error {
+  background: $block-bgcolor-red;
+  color: $text-color-red;
+}
+
+.database-totals {
+  font-style: italic;
+  color: $text-color-lightgrey;
+  margin: 5px 0;
+}
+
+.machine-info {
+  font-style: italic;
+  color: $text-color-lightgrey;
+}
+
+.color-red {
+  color: mat-color($red, 500);
+}
+
+.color-green {
+  color: mat-color($green, 500);
+}
+
+.color-orange {
+  color: mat-color($orange, 500);
+}

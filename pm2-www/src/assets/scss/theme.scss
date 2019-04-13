@@ -1,0 +1,14 @@
+//noinspection CssUnknownTarget
+@import '~assets/scss/variables';
+
+.snackbar-primary {
+  background: $snackbar-bg-primary !important;
+}
+
+.snackbar-accent {
+  background: $snackbar-bg-accent;
+}
+
+.snackbar-warn {
+  background: $snackbar-bg-warn;
+}

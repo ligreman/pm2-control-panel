@@ -1,0 +1,31 @@
+<div fxLayout="column" fxFill>
+    <header fxFlex="none">
+        <!-- HEADER -->
+        <mat-toolbar class="mat-elevation-z1" color="primary" fxFlex>
+            <span fxFlex="5"></span>
+            <a fxLayout="row" routerLink="/home">
+                <img class="header-logo" src="assets/img/logo.png"/>
+            </a>
+            <span fxFlex="5"></span>
+
+            <p class="header-title">PM2 Control Panel</p>
+
+            <!-- This fills the remaining space of the current row -->
+            <span class="fill-remaining-space"></span>
+
+            <span fxFlex="5"></span>
+        </mat-toolbar>
+    </header>
+
+    <section fxFlex fxLayout="row" id="router-outlet">
+        <router-outlet></router-outlet>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="mat-elevation-z1" fxFlex="5vh" fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex="grow"></div>
+        <p class="mat-body-1" fxFlex="none">©{{ currentDate.getFullYear() }} <strong>pm2 control panel</strong> 1.0.0
+        </p>
+        <div fxFlex="5"></div>
+    </footer>
+</div>

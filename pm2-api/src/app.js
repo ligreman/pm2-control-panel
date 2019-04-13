@@ -17,6 +17,7 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const morgan = require('morgan');
 const pm2 = require('pm2');
+const cors = require('cors');
 
 // Configuración
 const config = require('./config/config');
@@ -52,6 +53,14 @@ function configureExpressApp() {
 
     // Prevención de HTTP Pullution. Colocarlo después de haber parseado el body
     app.use(hpp({}));
+
+    // CORS
+    app.use(cors({
+        origin: 'http://localhost:4200',
+        optionsSuccessStatus: 200,
+        // Expongo más cabeceras que necesito
+        exposedHeaders: ['Content-Length', 'Content-Disposition']
+    }));
 
     // Morgan para loguear las peticiones al API (requests)
     if (config.isDevelopment()) {

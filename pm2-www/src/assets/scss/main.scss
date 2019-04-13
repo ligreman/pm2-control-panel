@@ -1,0 +1,35 @@
+//noinspection CssUnknownTarget
+@import '~assets/scss/variables';
+//noinspection CssUnknownTarget
+@import '~assets/scss/theme';
+
+/******** Global *******************/
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* This fills the remaining space, by using flexbox.
+       Every toolbar row uses a flexbox row layout. */
+.fill-remaining-space {
+    flex: 1 1 auto;
+}
+
+.margin-top-2em {
+    margin-top: 2rem;
+}
+
+.margin-bottom-2em {
+    margin-bottom: 2rem;
+}
+
+.b-white {
+    background: #FFFFFF;
+}
