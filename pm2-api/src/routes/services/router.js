@@ -6,6 +6,9 @@ const utils = require('../../common/utils/utils');
 const MESSAGES = require('../../config/messages');
 const logger = require('winston').loggers.get('logger');
 const scriptsAvailableJson = require('../../config/available-scripts');
+const joi = require('joi');
+
+const schemas = require('./schemas');
 
 /**
  * Arrancar un servicio nuevo
@@ -19,15 +22,18 @@ router.post('/start', function (req, res) {
     // Lista de scripts disponibles
     let scriptList = utils.getAvailableScripts();
 
-    // Verifico que viene el parámetro obligatorio
-    if (!req.body.script || !scriptList.includes(req.body.script)) {
-        return res.status(400).json({'error_message': MESSAGES.errors.wrongParams});
+    // Validación de parámetros
+    const {error, value} = joi.validate(req.body, schemas.startServiceRequest);
+
+    // Verifico que vienen los parámetros obligatorios
+    if (error || !scriptList.includes(value.script)) {
+        return res.status(400).json({'error_message': utils.createJoiErrorMessage(error)});
     }
 
     // Saco el JSON del script correspondiente
     let options = null;
     scriptsAvailableJson.apps.forEach((app) => {
-        if (app.label === req.body.script) {
+        if (app.label === value.script) {
             options = app;
         }
     });
@@ -39,13 +45,13 @@ router.post('/start', function (req, res) {
 
     // Nombre del proceso
     let name = utils.generateName(options.label);
-    if (req.body.name && req.body.name !== '') {
-        name = req.body.name;
+    if (value.name && value.name !== '') {
+        name = value.name;
     }
     // Instancias a crear
     let instances = 1;
-    if (req.body.instances && !isNaN(req.body.instances)) {
-        instances = parseInt(req.body.instances);
+    if (value.instances && !isNaN(value.instances)) {
+        instances = parseInt(value.instances);
     }
 
     // Completo el objeto de opciones
@@ -77,14 +83,22 @@ router.get('/', function (req, res) {
     logger.info('Peticion: ' + JSON.stringify(req.route));
     logger.info('    params: ' + JSON.stringify(req.query));
 
+    // Validación de parámetros
+    const {error, value} = joi.validate(req.query, schemas.getServicesRequest);
+
+    // Verifico que vienen los parámetros obligatorios
+    if (error) {
+        return res.status(400).json({'error_message': utils.createJoiErrorMessage(error)});
+    }
+
     let page = 0;
-    if (req.query.page && !isNaN(req.query.page)) {
-        page = parseInt(req.query.page);
+    if (value.page) {
+        page = parseInt(value.page);
     }
 
     let limit = 5;
-    if (req.query.limit && !isNaN(req.query.limit)) {
-        limit = parseInt(req.query.limit);
+    if (value.limit) {
+        limit = parseInt(value.limit);
     }
 
     // Para el total
@@ -137,7 +151,6 @@ router.get('/', function (req, res) {
  */
 router.get('/available', function (req, res) {
     logger.info('Peticion: ' + JSON.stringify(req.route));
-    logger.info('    params: ' + JSON.stringify(req.query));
 
     let filesInFolder = utils.getAvailableScripts();
 
@@ -154,13 +167,15 @@ router.post('/stop', function (req, res) {
     logger.info('Peticion: ' + JSON.stringify(req.route));
     logger.info('    params: ' + JSON.stringify(req.body));
 
-    // Parámetros opcionales
-    if (!utils.validateId(req.body.id)) {
-        res.status(400).json({'error_message': MESSAGES.errors.wrongParams});
-        return;
+    // Validación de parámetros
+    const {error, value} = joi.validate(req.body, schemas.bodyIdParam);
+
+    // Verifico que vienen los parámetros obligatorios
+    if (error) {
+        return res.status(400).json({'error_message': utils.createJoiErrorMessage(error)});
     }
 
-    pm2.stop(req.body.id, (err, proc) => {
+    pm2.stop(value.id, (err) => {
         if (err) {
             logger.error(err);
             res.status(400).json({'error_message': MESSAGES.errors.pm2StopError});
@@ -182,13 +197,15 @@ router.post('/flush', function (req, res) {
     logger.info('Peticion: ' + JSON.stringify(req.route));
     logger.info('    params: ' + JSON.stringify(req.body));
 
-    // Parámetros opcionales
-    if (!req.body.name) {
-        res.status(400).json({'error_message': MESSAGES.errors.wrongParams});
-        return;
+    // Validación de parámetros
+    const {error, value} = joi.validate(req.body, schemas.bodyNameParam);
+
+    // Verifico que vienen los parámetros obligatorios
+    if (error) {
+        return res.status(400).json({'error_message': utils.createJoiErrorMessage(error)});
     }
 
-    pm2.flush(req.body.name, (err, proc) => {
+    pm2.flush(value.name, (err) => {
         if (err) {
             logger.error(err);
             res.status(400).json({'error_message': MESSAGES.errors.pm2FlushError});
@@ -210,13 +227,15 @@ router.post('/delete', function (req, res) {
     logger.info('Peticion: ' + JSON.stringify(req.route));
     logger.info('    params: ' + JSON.stringify(req.body));
 
-    // Parámetros opcionales
-    if (!utils.validateId(req.body.id)) {
-        res.status(400).json({'error_message': MESSAGES.errors.wrongParams});
-        return;
+    // Validación de parámetros
+    const {error, value} = joi.validate(req.body, schemas.bodyIdParam);
+
+    // Verifico que vienen los parámetros obligatorios
+    if (error) {
+        return res.status(400).json({'error_message': utils.createJoiErrorMessage(error)});
     }
 
-    pm2.delete(req.body.id, (err, proc) => {
+    pm2.delete(value.id, (err) => {
         if (err) {
             logger.error(err);
             res.status(400).json({'error_message': MESSAGES.errors.pm2DeleteError});
@@ -238,13 +257,15 @@ router.post('/restart', function (req, res) {
     logger.info('Peticion: ' + JSON.stringify(req.route));
     logger.info('    params: ' + JSON.stringify(req.body));
 
-    // Parámetros opcionales
-    if (!utils.validateId(req.body.id)) {
-        res.status(400).json({'error_message': MESSAGES.errors.wrongParams});
-        return;
+    // Validación de parámetros
+    const {error, value} = joi.validate(req.body, schemas.bodyIdParam);
+
+    // Verifico que vienen los parámetros obligatorios
+    if (error) {
+        return res.status(400).json({'error_message': utils.createJoiErrorMessage(error)});
     }
 
-    pm2.restart(req.body.id, (err, proc) => {
+    pm2.restart(value.id, (err) => {
         if (err) {
             logger.error(err);
             res.status(400).json({'error_message': MESSAGES.errors.pm2RestartError});
@@ -266,13 +287,15 @@ router.post('/reload', function (req, res) {
     logger.info('Peticion: ' + JSON.stringify(req.route));
     logger.info('    params: ' + JSON.stringify(req.body));
 
-    // Parámetros opcionales
-    if (!utils.validateId(req.body.id)) {
-        res.status(400).json({'error_message': MESSAGES.errors.wrongParams});
-        return;
+    // Validación de parámetros
+    const {error, value} = joi.validate(req.body, schemas.bodyIdParam);
+
+    // Verifico que vienen los parámetros obligatorios
+    if (error) {
+        return res.status(400).json({'error_message': utils.createJoiErrorMessage(error)});
     }
 
-    pm2.reload(req.body.id, (err, proc) => {
+    pm2.reload(value.id, (err) => {
         if (err) {
             logger.error(err);
             res.status(400).json({'error_message': MESSAGES.errors.pm2ReloadError});
@@ -295,23 +318,25 @@ router.get('/log', function (req, res) {
     logger.info('Peticion: ' + JSON.stringify(req.route));
     logger.info('    params: ' + JSON.stringify(req.query));
 
-    // Parámetros opcionales
-    if (!utils.validateId(req.query.id)) {
-        res.status(400).json({'error_message': MESSAGES.errors.wrongParams});
-        return;
+    // Validación de parámetros
+    const {error, value} = joi.validate(req.body, schemas.getLogsRequest);
+
+    // Verifico que vienen los parámetros obligatorios
+    if (error) {
+        return res.status(400).json({'error_message': utils.createJoiErrorMessage(error)});
     }
 
     let logFileName = 'out';
-    if (req.query.type && req.query.type === 'error') {
+    if (value.type === 'error') {
         logFileName = 'error';
     }
 
-    pm2.describe(req.query.id, (err, proc) => {
+    pm2.describe(value.id, (err, proc) => {
         if (err) {
             logger.error(err);
             res.status(400).json({'error_message': MESSAGES.errors.pm2LogError});
         } else {
-            logger.info('PM2 describe process ' + req.query.id);
+            logger.info('PM2 describe process ' + value.id);
 
             // Saco las rutas de los logs
             let file = '';

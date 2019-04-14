@@ -2,7 +2,8 @@
 <div mat-dialog-content fxLayout="column">
     <p>Indica el nombre del nuevo proceso y el script que ejecutará.</p>
     <mat-form-field fxFlex>
-        <input matInput placeholder="Nombre del proceso" [(ngModel)]="data.processName" required>
+        <input matInput placeholder="Nombre del proceso (entre 3 y 50 chars)" [(ngModel)]="data.processName"
+               minlength="3" maxlength="50" required>
         <!--<mat-error *ngIf="processName.errors.required">
             Campo requerido
         </mat-error>-->

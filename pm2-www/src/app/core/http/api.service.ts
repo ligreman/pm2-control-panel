@@ -169,6 +169,7 @@ export class ApiService {
         return (error: any): Observable<T> => {
 
             console.error(error); // log to console instead
+            result = error;
 
             // Let the app keep running by returning an empty result.
             return of(result as T);

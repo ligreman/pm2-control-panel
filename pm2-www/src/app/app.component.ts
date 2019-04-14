@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ApiService } from '@app/core/http/api.service';
-import { api } from '@env/environment';
+import { api, version } from '@env/environment';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-
-const pack = require('../../package.json');
 
 @Component({
     selector: 'app-root',
@@ -14,7 +12,7 @@ const pack = require('../../package.json');
 })
 export class AppComponent implements OnInit {
     currentDate = new Date();
-    version = pack.version;
+    version = version;
     options: string[] = api.servers;
     serverControl = new FormControl();
     filteredOptions: Observable<string[]>;

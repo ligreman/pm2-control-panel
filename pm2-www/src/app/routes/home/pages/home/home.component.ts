@@ -96,10 +96,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
             (response: HttpResponse<DefaultResponse>) => {
                 if (!response['body'] || response['status'] !== 200) {
                     // Muestro un toast
-                    this.snackBar.open('Error al consultar al API', '', {
+                    this.snackBar.open('Error al consultar al API: ' + response['error']['error_message'], '', {
                         horizontalPosition: 'end',
                         verticalPosition: 'bottom',
-                        duration: 2500,
+                        duration: 3000,
                         panelClass: ['snackbar-warn']
                     });
 
@@ -171,10 +171,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
                 if (!response['body'] || response['status'] !== 200) {
                     // ERROR
-                    this.snackBar.open('Error al consultar al API', '', {
+                    this.snackBar.open('Error al consultar al API: ' + response['error']['error_message'], '', {
                         horizontalPosition: 'end',
                         verticalPosition: 'bottom',
-                        duration: 2500,
+                        duration: 3000,
                         panelClass: ['snackbar-warn']
                     });
 
@@ -190,7 +190,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                         panelClass: ['snackbar-success']
                     });
                 }
-                console.log(response);
+
             },
             error => {
                 console.log('Error: ' + error);
@@ -211,10 +211,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 this.isLoadingTable = false;
                 if (!response['body'] || response['status'] !== 200) {
                     // ERROR
-                    this.snackBar.open('Error al consultar al API', '', {
+                    this.snackBar.open('Error al consultar al API: ' + response['error']['error_message'], '', {
                         horizontalPosition: 'end',
                         verticalPosition: 'bottom',
-                        duration: 2500,
+                        duration: 3000,
                         panelClass: ['snackbar-warn']
                     });
                 } else {
@@ -222,7 +222,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                     // Correcto, voy a pedir los datos de nuevo
                     this.getProcessData();
                 }
-                console.log(response);
+
 
             },
             error => {
@@ -244,10 +244,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 this.isLoadingTable = false;
                 if (!response['body'] || response['status'] !== 200) {
                     // ERROR
-                    this.snackBar.open('Error al consultar al API', '', {
+                    this.snackBar.open('Error al consultar al API: ' + response['error']['error_message'], '', {
                         horizontalPosition: 'end',
                         verticalPosition: 'bottom',
-                        duration: 2500,
+                        duration: 3000,
                         panelClass: ['snackbar-warn']
                     });
                 } else {
@@ -255,7 +255,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
                     // Correcto, voy a pedir los datos de nuevo
                     this.getProcessData();
                 }
-                console.log(response);
             },
             error => {
                 this.isLoadingTable = false;
@@ -276,10 +275,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 this.isLoadingTable = false;
                 if (!response['body'] || response['status'] !== 200) {
                     // ERROR
-                    this.snackBar.open('Error al consultar al API', '', {
+                    this.snackBar.open('Error al consultar al API: ' + response['error']['error_message'], '', {
                         horizontalPosition: 'end',
                         verticalPosition: 'bottom',
-                        duration: 2500,
+                        duration: 3000,
                         panelClass: ['snackbar-warn']
                     });
                 } else {
@@ -293,7 +292,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                         panelClass: ['snackbar-success']
                     });
                 }
-                console.log(response);
+
             },
             error => {
                 this.isLoadingTable = false;
@@ -328,10 +327,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
                         this.isLoadingTable = false;
                         if (!response['body'] || response['status'] !== 200) {
                             // ERROR
-                            this.snackBar.open('Error al consultar al API', '', {
+                            this.snackBar.open('Error al consultar al API: ' + response['error']['error_message'], '', {
                                 horizontalPosition: 'end',
                                 verticalPosition: 'bottom',
-                                duration: 2500,
+                                duration: 3000,
                                 panelClass: ['snackbar-warn']
                             });
                         } else {
@@ -345,7 +344,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                                 panelClass: ['snackbar-success']
                             });
                         }
-                        console.log(response);
+
                     },
                     error => {
                         this.isLoadingTable = false;
@@ -382,10 +381,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
                         this.isLoadingTable = false;
                         if (!response['body'] || response['status'] !== 200) {
                             // ERROR
-                            this.snackBar.open('Error al consultar al API', '', {
+                            this.snackBar.open('Error al consultar al API: ' + response['error']['error_message'], '', {
                                 horizontalPosition: 'end',
                                 verticalPosition: 'bottom',
-                                duration: 2500,
+                                duration: 3000,
                                 panelClass: ['snackbar-warn']
                             });
                         } else {
@@ -399,7 +398,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                                 panelClass: ['snackbar-success']
                             });
                         }
-                        console.log(response);
+
 
                     },
                     error => {
@@ -422,10 +421,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
             .subscribe((response) => {
                     if (!response['body'] || response['status'] !== 200) {
                         // ERROR
-                        this.snackBar.open('Error al consultar al API', '', {
+                        this.snackBar.open('Error al consultar al API: ' + response['error']['error_message'], '', {
                             horizontalPosition: 'end',
                             verticalPosition: 'bottom',
-                            duration: 2500,
+                            duration: 3000,
                             panelClass: ['snackbar-warn']
                         });
                     } else {
@@ -448,10 +447,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
             (response: HttpResponse<DefaultResponse>) => {
                 if (!response['body'] || response['status'] !== 200) {
                     // ERROR
-                    this.snackBar.open('Error al consultar al API', '', {
+                    this.snackBar.open('Error al consultar al API: ' + response['error']['error_message'], '', {
                         horizontalPosition: 'end',
                         verticalPosition: 'bottom',
-                        duration: 2500,
+                        duration: 3000,
                         panelClass: ['snackbar-warn']
                     });
                 } else {

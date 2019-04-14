@@ -7,3 +7,5 @@ export const api = {
         'http://localhost:8080/api'
     ]
 };
+
+export const version = '1.0.0';

@@ -13,6 +13,8 @@ export const api = {
     ]
 };
 
+export const version = '1.0.0';
+
 
 /*
  * For easier debugging in development mode, you can import the following file

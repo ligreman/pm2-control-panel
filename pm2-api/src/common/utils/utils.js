@@ -43,9 +43,19 @@ function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function createJoiErrorMessage(joiError) {
+    let result = [];
+
+    joiError.details.forEach((detail) => {
+        result.push(detail.message);
+    });
+
+    return result.join(', ');
+}
 
 module.exports = {
     getAvailableScripts: getAvailableScripts,
     generateName: generateName,
-    validateId: validateId
+    validateId: validateId,
+    createJoiErrorMessage: createJoiErrorMessage
 };

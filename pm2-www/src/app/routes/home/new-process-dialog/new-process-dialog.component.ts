@@ -57,7 +57,6 @@ export class NewProcessDialogComponent implements OnInit, AfterViewInit {
 
                     // Todo OK
                     this.processesList = body.data;
-                    console.log(body.data);
 
                     this.isLoadingSelect = false;
                 }
