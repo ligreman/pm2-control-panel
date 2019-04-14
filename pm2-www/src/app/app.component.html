@@ -13,6 +13,16 @@
             <!-- This fills the remaining space of the current row -->
             <span class="fill-remaining-space"></span>
 
+            <mat-form-field fxFlex="25" class="small-font" color="accent">
+                <input type="text" placeholder="Servidor API" aria-label="" matInput
+                       [formControl]="serverControl" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="_changeServer($event.option.value)">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
             <span fxFlex="5"></span>
         </mat-toolbar>
     </header>
@@ -24,7 +34,8 @@
     <!-- FOOTER -->
     <footer class="mat-elevation-z1" fxFlex="5vh" fxLayout="row" fxLayoutAlign="center center">
         <div fxFlex="grow"></div>
-        <p class="mat-body-1" fxFlex="none">©{{ currentDate.getFullYear() }} <strong>pm2 control panel</strong> 1.0.0
+        <p class="mat-body-1" fxFlex="none">
+            ©{{ currentDate.getFullYear() }} <strong>pm2 control panel</strong> v{{version}}
         </p>
         <div fxFlex="5"></div>
     </footer>

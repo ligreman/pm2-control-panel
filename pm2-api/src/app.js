@@ -56,7 +56,7 @@ function configureExpressApp() {
 
     // CORS
     app.use(cors({
-        origin: 'http://localhost:4200',
+        origin: config.server.corsOrigin,
         optionsSuccessStatus: 200,
         // Expongo más cabeceras que necesito
         exposedHeaders: ['Content-Length', 'Content-Disposition']

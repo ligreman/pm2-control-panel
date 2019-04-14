@@ -7,8 +7,12 @@ export const environment = {
 };
 
 export const api = {
-    url: 'http://localhost:8080/api/'
+    servers: [
+        'http://localhost:8080/api',
+        'http://localhost:8081/api'
+    ]
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

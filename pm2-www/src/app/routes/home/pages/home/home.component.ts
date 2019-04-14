@@ -29,7 +29,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     // Librería Math para poder acceder desde el template
     Math = Math;
-    JSON = JSON;
     // Librería Luxon
     Duration = Duration;
 
@@ -184,6 +183,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 } else {
                     // Correcto, voy a pedir los datos de nuevo
                     this.getProcessData();
+                    this.snackBar.open('Proceso ' + name + ' creado', '', {
+                        horizontalPosition: 'end',
+                        verticalPosition: 'bottom',
+                        duration: 1000,
+                        panelClass: ['snackbar-success']
+                    });
                 }
                 console.log(response);
             },
@@ -278,9 +283,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
                         panelClass: ['snackbar-warn']
                     });
                 } else {
-
                     // Correcto, voy a pedir los datos de nuevo
                     this.getProcessData();
+
+                    this.snackBar.open('Proceso recargado', '', {
+                        horizontalPosition: 'end',
+                        verticalPosition: 'bottom',
+                        duration: 1000,
+                        panelClass: ['snackbar-success']
+                    });
                 }
                 console.log(response);
             },
@@ -327,6 +338,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
                             // Correcto, voy a pedir los datos de nuevo
                             this.getProcessData();
+                            this.snackBar.open('Logs eliminados', '', {
+                                horizontalPosition: 'end',
+                                verticalPosition: 'bottom',
+                                duration: 1000,
+                                panelClass: ['snackbar-success']
+                            });
                         }
                         console.log(response);
                     },
@@ -372,9 +389,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
                                 panelClass: ['snackbar-warn']
                             });
                         } else {
-
                             // Correcto, voy a pedir los datos de nuevo
                             this.getProcessData();
+
+                            this.snackBar.open('Proceso eliminado', '', {
+                                horizontalPosition: 'end',
+                                verticalPosition: 'bottom',
+                                duration: 1000,
+                                panelClass: ['snackbar-success']
+                            });
                         }
                         console.log(response);
 

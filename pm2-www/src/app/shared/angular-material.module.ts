@@ -17,8 +17,9 @@ import {
     MatProgressSpinnerModule,
     MatTableModule,
     MatDialogModule,
+    MatAutocompleteModule
 } from '@angular/material';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
@@ -42,7 +43,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         MatTableModule,
         MatDialogModule,
         MatSliderModule,
-        FormsModule
+        MatAutocompleteModule,
+        FormsModule,
+        ReactiveFormsModule
     ],
     exports: [
         FlexLayoutModule,
@@ -63,7 +66,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         MatTableModule,
         MatDialogModule,
         MatSliderModule,
-        FormsModule
+        MatAutocompleteModule,
+        FormsModule,
+        ReactiveFormsModule
     ]
 })
 export class AngularMaterialModule {

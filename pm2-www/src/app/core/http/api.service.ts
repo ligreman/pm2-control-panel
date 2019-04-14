@@ -16,8 +16,14 @@ import { of } from 'rxjs/internal/observable/of';
  * Servicio para consultar al API
  */
 export class ApiService {
-    constructor(private http: HttpClient) {
+    apiUrl: string;
 
+    constructor(private http: HttpClient) {
+        this.apiUrl = api.servers[0];
+    }
+
+    setApiUrl(url: string) {
+        this.apiUrl = url;
     }
 
     getCurrentProcesses(params: any): Observable<any[] | HttpResponse<DefaultResponse>> {
@@ -26,7 +32,7 @@ export class ApiService {
         httpParams = httpParams.set('page', params.page);
         httpParams = httpParams.set('limit', params.limit);
 
-        return this.http.get<DefaultResponse>(api.url + 'services', {
+        return this.http.get<DefaultResponse>(this.apiUrl + '/services', {
             headers: new HttpHeaders({'Content-Type': 'application/json'}),
             params: httpParams,
             // Le digo que quiero la respuesta entera
@@ -39,7 +45,7 @@ export class ApiService {
     }
 
     getAvailableProcesses(): Observable<any[] | HttpResponse<DefaultResponse>> {
-        return this.http.get<DefaultResponse>(api.url + 'services/available', {
+        return this.http.get<DefaultResponse>(this.apiUrl + '/services/available', {
             headers: new HttpHeaders({'Content-Type': 'application/json'}),
             // Le digo que quiero la respuesta entera
             observe: 'response'
@@ -51,7 +57,7 @@ export class ApiService {
     }
 
     createNewProcess(params: any): Observable<any[] | HttpResponse<DefaultResponse>> {
-        return this.http.post<DefaultResponse>(api.url + 'services/start', params, {
+        return this.http.post<DefaultResponse>(this.apiUrl + '/services/start', params, {
             headers: new HttpHeaders({'Content-Type': 'application/json'}),
             // Le digo que quiero la respuesta entera
             observe: 'response'
@@ -63,7 +69,7 @@ export class ApiService {
     }
 
     stopProcess(params: any): Observable<any[] | HttpResponse<DefaultResponse>> {
-        return this.http.post<DefaultResponse>(api.url + 'services/stop', params, {
+        return this.http.post<DefaultResponse>(this.apiUrl + '/services/stop', params, {
             headers: new HttpHeaders({'Content-Type': 'application/json'}),
             // Le digo que quiero la respuesta entera
             observe: 'response'
@@ -75,7 +81,7 @@ export class ApiService {
     }
 
     startProcess(params: any): Observable<any[] | HttpResponse<DefaultResponse>> {
-        return this.http.post<DefaultResponse>(api.url + 'services/restart', params, {
+        return this.http.post<DefaultResponse>(this.apiUrl + '/services/restart', params, {
             headers: new HttpHeaders({'Content-Type': 'application/json'}),
             // Le digo que quiero la respuesta entera
             observe: 'response'
@@ -87,7 +93,7 @@ export class ApiService {
     }
 
     reloadProcess(params: any): Observable<any[] | HttpResponse<DefaultResponse>> {
-        return this.http.post<DefaultResponse>(api.url + 'services/reload', params, {
+        return this.http.post<DefaultResponse>(this.apiUrl + '/services/reload', params, {
             headers: new HttpHeaders({'Content-Type': 'application/json'}),
             // Le digo que quiero la respuesta entera
             observe: 'response'
@@ -99,7 +105,7 @@ export class ApiService {
     }
 
     flushProcess(params: any): Observable<any[] | HttpResponse<DefaultResponse>> {
-        return this.http.post<DefaultResponse>(api.url + 'services/flush', params, {
+        return this.http.post<DefaultResponse>(this.apiUrl + '/services/flush', params, {
             headers: new HttpHeaders({'Content-Type': 'application/json'}),
             // Le digo que quiero la respuesta entera
             observe: 'response'
@@ -111,7 +117,7 @@ export class ApiService {
     }
 
     deleteProcess(params: any): Observable<any[] | HttpResponse<DefaultResponse>> {
-        return this.http.post<DefaultResponse>(api.url + 'services/delete', params, {
+        return this.http.post<DefaultResponse>(this.apiUrl + '/services/delete', params, {
             headers: new HttpHeaders({'Content-Type': 'application/json'}),
             // Le digo que quiero la respuesta entera
             observe: 'response'
@@ -123,7 +129,7 @@ export class ApiService {
     }
 
     getMachineInfo(): Observable<any[] | HttpResponse<DefaultResponse>> {
-        return this.http.get<DefaultResponse>(api.url + 'machine', {
+        return this.http.get<DefaultResponse>(this.apiUrl + '/machine', {
             headers: new HttpHeaders({'Content-Type': 'application/json'}),
             // Le digo que quiero la respuesta entera
             observe: 'response'
@@ -140,7 +146,7 @@ export class ApiService {
         httpParams = httpParams.set('id', params.id);
         httpParams = httpParams.set('type', params.type);
 
-        return this.http.get(api.url + 'services/log', {
+        return this.http.get(this.apiUrl + '/services/log', {
             headers: new HttpHeaders({'Content-Type': 'application/json'}),
             params: httpParams,
             responseType: 'blob',

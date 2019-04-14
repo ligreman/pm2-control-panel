@@ -5,31 +5,35 @@
 
 /******** Global *******************/
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .text-right {
-    text-align: right;
+  text-align: right;
 }
 
 [hidden] {
-    display: none !important;
+  display: none !important;
 }
 
 /* This fills the remaining space, by using flexbox.
        Every toolbar row uses a flexbox row layout. */
 .fill-remaining-space {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
 .margin-top-2em {
-    margin-top: 2rem;
+  margin-top: 2rem;
 }
 
 .margin-bottom-2em {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .b-white {
-    background: #FFFFFF;
+  background: #FFFFFF;
+}
+
+.small-font {
+  font-size: .8rem;
 }

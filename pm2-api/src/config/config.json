@@ -11,7 +11,8 @@
     "morganFormatProduction": "[:date] :method :url :status -- :response-time ms -- :res[content-length] bytes -- From: :remote-addr"
   },
   "server": {
-    "port": 8080
+    "port": 8080,
+    "corsOrigin": "http://localhost:4200"
   },
   "scriptNameReplacements": {
     ".js": "",

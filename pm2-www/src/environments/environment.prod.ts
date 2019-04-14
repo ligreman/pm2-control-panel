@@ -3,5 +3,7 @@ export const environment = {
 };
 
 export const api = {
-    url: 'http://localhost:8080/api/'
+    servers: [
+        'http://localhost:8080/api'
+    ]
 };

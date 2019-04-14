@@ -1,11 +1,18 @@
 <div fxFill fxLayout="row" fxLayoutAlign="center start">
 
-    <div class="margin-top-2em margin-bottom-2em" fxFlex="70" fxLayout="column" fxLayoutAlign="center stretch">
-        <p class="text-right machine-info">
-            <span *ngIf="machineInfo">{{machineInfo.os}} - {{ machineInfo.cpus.length}}
-                cores - Memoria libre {{machineInfo.freememory}}</span>
-            <span *ngIf="!machineInfo">No hay conexión con el servidor</span>
-        </p>
+    <div class="margin-top-2em margin-bottom-2em" fxFlex="70" fxFlex.lt-sm="95" fxLayout="column"
+         fxLayoutAlign="center stretch">
+        <!-- Información del servidor y la máquina -->
+        <div class="machine-info small-font" fxLayout="row" fxLayoutAlign="space-between center">
+            <span>Servidor: {{ apiService.apiUrl }}</span>
+            <div class="text-right">
+                <span *ngIf="machineInfo">{{machineInfo.os}} - {{ machineInfo.cpus.length}}
+                    cores - Memoria libre {{machineInfo.freememory}}</span>
+                <span *ngIf="!machineInfo">No hay conexión con el servidor</span>
+            </div>
+        </div>
+
+        <!-- Tabla de procesos -->
         <div class="mat-elevation-z1" fxLayout="column">
             <mat-toolbar color="primary">
                 <mat-toolbar-row>
