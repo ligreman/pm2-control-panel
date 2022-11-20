@@ -1,3 +1,4 @@
+/* tslint:disable:no-string-literal */
 import { HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ApiService } from '@app/core/http/api.service';
@@ -5,11 +6,11 @@ import { DefaultResponse } from '@app/core/interfaces/default-response';
 import { UtilsService } from '@app/core/utils/utils.service';
 import { NewProcessDialogComponent } from '@app/routes/home/new-process-dialog/new-process-dialog.component';
 import { ConfirmDialogComponent } from '@app/shared/confirm-dialog/confirm-dialog.component';
-import { matPaginatorIntlSpanish } from '@app/shared/spanish-paginator-intl';
+import { MatPaginatorIntlSpanish } from '@app/shared/mat-paginator-intl-spanish.service';
 import { Duration } from 'luxon';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyPaginatorIntl as MatPaginatorIntl } from '@angular/material/legacy-paginator';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 
 
@@ -18,7 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
     providers: [
-        {provide: MatPaginatorIntl, useClass: matPaginatorIntlSpanish}
+        {provide: MatPaginatorIntl, useClass: MatPaginatorIntlSpanish}
     ]
 })
 
@@ -41,7 +42,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     paginationLength = 0;
 
     // Constructor. Inicializo propiedades
-    constructor(private apiService: ApiService,
+    constructor(public apiService: ApiService,
                 private activatedRoute: ActivatedRoute, private router: Router,
                 private snackBar: MatSnackBar, private dialog: MatDialog) {
         console.log('CONSTRUCTOR');
@@ -164,9 +165,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
         // Pido los totales al api para pintarlos
         this.apiService.createNewProcess({
-            name: name,
-            script: script,
-            instances: instances
+            name,
+            script,
+            instances
         }).subscribe(
             (response: HttpResponse<DefaultResponse>) => {
                 this.isLoadingTable = false;
@@ -208,7 +209,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     public startProcess(id: string) {
         this.isLoadingTable = true;
 
-        this.apiService.startProcess({id: id}).subscribe(
+        this.apiService.startProcess({id}).subscribe(
             (response: HttpResponse<DefaultResponse>) => {
                 this.isLoadingTable = false;
                 if (!response['body'] || response['status'] !== 200) {
@@ -241,7 +242,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     public stopProcess(id: string) {
         this.isLoadingTable = true;
 
-        this.apiService.stopProcess({id: id}).subscribe(
+        this.apiService.stopProcess({id}).subscribe(
             (response: HttpResponse<DefaultResponse>) => {
                 this.isLoadingTable = false;
                 if (!response['body'] || response['status'] !== 200) {
@@ -272,7 +273,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     public reloadProcess(id: string) {
         this.isLoadingTable = true;
 
-        this.apiService.reloadProcess({id: id}).subscribe(
+        this.apiService.reloadProcess({id}).subscribe(
             (response: HttpResponse<DefaultResponse>) => {
                 this.isLoadingTable = false;
                 if (!response['body'] || response['status'] !== 200) {
@@ -324,7 +325,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
                 this.isLoadingTable = true;
 
-                this.apiService.flushProcess({name: name}).subscribe(
+                this.apiService.flushProcess({name}).subscribe(
                     (response: HttpResponse<DefaultResponse>) => {
                         this.isLoadingTable = false;
                         if (!response['body'] || response['status'] !== 200) {
@@ -378,7 +379,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             if (returnedValue === true) {
                 this.isLoadingTable = true;
 
-                this.apiService.deleteProcess({id: id}).subscribe(
+                this.apiService.deleteProcess({id}).subscribe(
                     (response: HttpResponse<DefaultResponse>) => {
                         this.isLoadingTable = false;
                         if (!response['body'] || response['status'] !== 200) {
@@ -419,7 +420,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
      * @param type 'out' ' error' según el log que queramos
      */
     public getProcessLog(id: string, name: string, type: string) {
-        this.apiService.getProcessLog({id: id, type: type})
+        this.apiService.getProcessLog({id, type})
             .subscribe((response) => {
                     if (!response['body'] || response['status'] !== 200) {
                         // ERROR

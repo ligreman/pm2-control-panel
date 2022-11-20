@@ -5,9 +5,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ApiService } from '@app/core/api/api.service';
+import { ApiService } from '@app/core/http/api.service';
 import { CoreModule } from '@app/core/core.module';
-import { MaterialModule } from '@app/shared/material.module';
+import { AngularMaterialModule } from '@app/shared/angular-material.module';
 import { SharedModule } from '@app/shared/shared.module';
 import { of } from 'rxjs/index';
 
@@ -37,7 +37,7 @@ describe('HomeComponent', () => {
                 CoreModule,
                 SharedModule,
                 FormsModule,
-                MaterialModule
+                AngularMaterialModule
             ],
             providers: [
                 {provide: ApiService, useValue: myApiService}

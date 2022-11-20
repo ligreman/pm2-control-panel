@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
         return this.options.filter(option => option.toLowerCase().includes(filterValue));
     }
 
-    private _changeServer(value: string) {
+    _changeServer(value: string) {
         this.apiService.setApiUrl(value);
     }
 }

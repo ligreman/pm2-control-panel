@@ -1,7 +1,8 @@
+/* tslint:disable:no-string-literal */
 import { HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApiService } from '@app/core/http/api.service';
 import { DefaultResponse } from '@app/core/interfaces/default-response';
 
@@ -14,7 +15,7 @@ import { DefaultResponse } from '@app/core/interfaces/default-response';
 export class NewProcessDialogComponent implements OnInit, AfterViewInit {
 
     processesList: Array<string>;
-    isLoadingSelect: boolean = false;
+    isLoadingSelect = false;
 
     // Validación del formulario
     // nameFormControl = new FormControl('', [Validators.required]);
@@ -54,7 +55,7 @@ export class NewProcessDialogComponent implements OnInit, AfterViewInit {
                     this.isLoadingSelect = false;
                 } else {
                     // Correcto
-                    let body = response['body'];
+                    const body = response['body'];
 
                     // Todo OK
                     this.processesList = body.data;

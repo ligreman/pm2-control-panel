@@ -37,5 +37,5 @@ export class UtilsService {
 
         const fecha = new Date();
         return fecha.getTime() + '_' + name;
-    };
+    }
 }

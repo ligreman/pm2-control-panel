@@ -1,4 +1,4 @@
-import { CoreModule } from '../../../../../pm2-www/src/app/core/core.module';
+import { CoreModule } from '@app/core/core.module';
 
 describe('CoreModule', () => {
     let coreModule: CoreModule;
