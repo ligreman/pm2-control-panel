@@ -1,6 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ApiService } from '@app/core/http/api.service';
 import { DefaultResponse } from '@app/core/interfaces/default-response';
 
