@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { ApiService } from '@app/core/http/api.service';
 import { api, version } from '@env/environment';
 import { Observable } from 'rxjs';
@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
     currentDate = new Date();
     version = version;
     options: string[] = api.servers;
-    serverControl = new FormControl();
+    serverControl = new UntypedFormControl();
     filteredOptions: Observable<string[]>;
 
     constructor(private apiService: ApiService) {

@@ -23,8 +23,7 @@ import { ConfirmDialogComponent } from '@app/shared/confirm-dialog/confirm-dialo
         CoreModule
     ],
     providers: [],
-    bootstrap: [AppComponent],
-    entryComponents: [ConfirmDialogComponent]
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

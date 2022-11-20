@@ -11,9 +11,7 @@ import { NewProcessDialogComponent } from '@app/routes/home/new-process-dialog/n
         CommonModule,
         HomeRoutingModule,
         AngularMaterialModule
-    ],
-    // componentes que cargo sin que estén en el template directamente, como los que se crean a partir del controlador
-    entryComponents: [NewProcessDialogComponent]
+    ]
 })
 export class HomeModule {
 }
