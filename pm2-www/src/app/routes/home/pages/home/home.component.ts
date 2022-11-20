@@ -7,9 +7,9 @@ import { NewProcessDialogComponent } from '@app/routes/home/new-process-dialog/n
 import { ConfirmDialogComponent } from '@app/shared/confirm-dialog/confirm-dialog.component';
 import { matPaginatorIntlSpanish } from '@app/shared/spanish-paginator-intl';
 import { Duration } from 'luxon';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginatorIntl } from '@angular/material/paginator';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacyPaginatorIntl as MatPaginatorIntl } from '@angular/material/legacy-paginator';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 
 
