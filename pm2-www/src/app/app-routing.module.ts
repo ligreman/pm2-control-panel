@@ -10,7 +10,7 @@ const routes: Routes = [
     },
     {
         path: 'home',
-        loadChildren: './routes/home/home.module#HomeModule'
+        loadChildren: () => import('./routes/home/home.module').then(m => m.HomeModule)
     },
     {path: '**', component: PageNotFoundComponent}
 ];
